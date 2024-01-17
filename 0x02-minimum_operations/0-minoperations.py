@@ -4,12 +4,19 @@
 
 
 def minOperations(n):
-    if n <= 0:
+    """
+    calculates the fewest number of
+    operations needed to result in
+    """
+    if n <= 1:
         return 0
-    elif n == 1:
-        return 1
-    else:
-        for i in range(2, int(n**0.5) + 1):
-            if n % i == 0:
-                return i + minOperations(n//i)
-        return n
+    min_operations = 0
+    current_length = 1
+    clipboard = 0
+    while current_length != n:
+        if n % current_length == 0:
+            clipboard = current_length
+            min_operations += 1
+        current_length += clipboard
+        min_operations += 1
+    return min_operations
