@@ -1,46 +1,40 @@
 #!/usr/bin/python3
-"""Log parsing"""
 import sys
-import signal
+"""This module contains a script that reads
+    stdin line by line and computes metrics"""
 
 
-"""Initialize variables"""
+def print_metrics(total_file_size, status_code_counts):
+    """Print the metrics"""
+    print("File size: {}".format(total_file_size))
+    for code in sorted(status_code_counts.keys()):
+        if status_code_counts[code] > 0:
+            print("{}: {}".format(code, status_code_counts[code]))
+
+
+# Initialize variables
 status_codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
 total_size = 0
 line_count = 0
 
-
-def print_stats():
-    print("File size: {}".format(total_size))
-    for code in sorted(status_codes.keys()):
-        if status_codes[code] > 0:
-            print("{}: {}".format(code, status_codes[code]))
-
-
-# Handle keyboard interruption
-def signal_handler(sig, frame):
-    print_stats()
-    sys.exit(0)
-
-
-signal.signal(signal.SIGINT, signal_handler)
-
 try:
     for line in sys.stdin:
-        try:
-            parts = line.split()
-            size = int(parts[-1])
-            code = int(parts[-2])
-            total_size += size
-            if code in status_codes:
-                status_codes[code] += 1
-        except (ValueError, IndexError):
-            continue
-
         line_count += 1
-        if line_count % 10 == 0:
-            print_stats()
+        parts = line.split()
+        try:
+            status_code = int(parts[-2])
+            if status_code in status_codes:
+                status_codes[status_code] += 1
+        except (ValueError, IndexError):
+            pass
 
-except KeyboardInterrupt:
-    print_stats()
-    raise
+        try:
+            file_size = int(parts[-1])
+            total_size += file_size
+        except (ValueError, IndexError):
+            pass
+
+        if line_count % 10 == 0:
+            print_metrics(total_size, status_codes)
+finally:
+    print_metrics(total_size, status_codes)
