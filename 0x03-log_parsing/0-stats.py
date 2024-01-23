@@ -1,11 +1,14 @@
 #!/usr/bin/python3
+""" 0-stats.py """
 import sys
 import signal
 
-# Initialize variables
+
+"""Initialize variables"""
 status_codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
 total_size = 0
 line_count = 0
+
 
 def print_stats():
     print("File size: {}".format(total_size))
@@ -13,10 +16,12 @@ def print_stats():
         if status_codes[code] > 0:
             print("{}: {}".format(code, status_codes[code]))
 
+
 # Handle keyboard interruption
 def signal_handler(sig, frame):
     print_stats()
     sys.exit(0)
+
 
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -29,7 +34,7 @@ try:
             total_size += size
             if code in status_codes:
                 status_codes[code] += 1
-        except (ValueError, IndexError):
+        except:
             continue
 
         line_count += 1
