@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" 0-stats.py """
+"""Log parsing"""
 import sys
 import signal
 
@@ -34,7 +34,7 @@ try:
             total_size += size
             if code in status_codes:
                 status_codes[code] += 1
-        except:
+        except (ValueError, IndexError):
             continue
 
         line_count += 1
@@ -42,7 +42,5 @@ try:
             print_stats()
 
 except KeyboardInterrupt:
-    pass
-
-finally:
     print_stats()
+    raise
