@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import sys
 """This module contains a script that reads
-    stdin line by line and computes metrics"""
+    stdin line by line and computes metrics ."""
 
 
 def print_metrics(total_file_size, status_code_counts):
