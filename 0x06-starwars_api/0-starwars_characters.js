@@ -1,5 +1,5 @@
 #!/usr/bin/node
-// starwars_characters - prints all characters of a Star Wars movie by its id.
+// starwars_characters - prints all characters of a Star Wars movie
 const util = require('util');
 const request = util.promisify(require('request'));
 const filmID = process.argv[2];
