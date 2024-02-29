@@ -1,9 +1,16 @@
 #!/usr/bin/python3
+
 """Making change"""
 
 
 def makeChange(coins, total):
-    """making change for a given total using the fewest number of coins"""
+    """
+    Given an array of coins and a total amount, return the minimum number
+    of coins needed to make up that amount.
+    :param coins: list of integers
+    :param total: integer
+    :return: integer
+    """
     if total <= 0:
         return 0
 
